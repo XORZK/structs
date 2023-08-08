@@ -1,5 +1,5 @@
-#include "MACROS.h"
-#include "map.h"
+#include "src/MACROS.h"
+#include "src/map.h"
 
 int main() {
     /*
