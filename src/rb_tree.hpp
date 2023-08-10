@@ -1,44 +1,43 @@
-#ifndef RB_TREE_H
-#define RB_TREE_H
+#ifndef _RB_TREE_H
+#define _RB_TREE_H
 
 #pragma once
-#include "deque.h"
-#include "rb_node.h"
+#include "deque.hpp"
+#include "rb_node.hpp"
 #include <stdint.h>
 
-template <typename K, typename V> class rb_tree {
+template <typename T> class rb_tree {
     private:
         int64_t tree_size;
-        rb_node<K,V> *tree_root;
+        rb_node<T> *tree_root;
 
-        void rotate(rb_node<K,V>* node, bool right);
-        void maintain_properties_insertion(rb_node<K,V>* node);
-        void maintain_properties_deletion(rb_node<K,V>* node);
+        void rotate(rb_node<T>* node, bool right);
+        void maintain_properties_insertion(rb_node<T>* node);
+        void maintain_properties_deletion(rb_node<T>* node);
 
-        void replace_node_child(rb_node<K,V>* P, rb_node<K,V>* O, rb_node<K,V>* N);
-        rb_node<K,V>* non_double_removal(rb_node<K,V>* node);
+        void replace_node_child(rb_node<T>* P, rb_node<T>* O, rb_node<T>* N);
+        rb_node<T>* non_double_removal(rb_node<T>* node);
     public:
-        rb_tree(rb_node<K,V>* root = nullptr);
+        rb_tree(rb_node<T>* root = nullptr);
 
         ~rb_tree() {}
 
-        void insert(K key, V value);
-        void insert(rb_node<K, V>* node);
+        void insert(T value);
+        void insert(rb_node<T>* node);
 
-        void remove(K key);
-        void remove(rb_node<K,V>* node);
+        void remove(T value);
+        void remove(rb_node<T>* node);
 
-        V get(K key) const;
-        rb_node<K,V>* search(K key) const;
-        rb_node<K,V>* root() const;
+        rb_node<T>* search(T value) const;
+        rb_node<T>* root() const;
 
         int64_t size() const;
 };
 
-template <typename K, typename V> void rb_tree<K,V>::maintain_properties_insertion(rb_node<K,V>* node) {
-    rb_node<K,V> *P = node->parent(), 
-                 *U = node->uncle(), 
-                 *G = node->grandparent();
+template <typename T> void rb_tree<T>::maintain_properties_insertion(rb_node<T>* node) {
+    rb_node<T> *P = node->parent(), 
+               *U = node->uncle(), 
+               *G = node->grandparent();
 
     if (node_color(P) == BLACK)
         return;
@@ -72,13 +71,16 @@ template <typename K, typename V> void rb_tree<K,V>::maintain_properties_inserti
     }
 }
 
-template <typename K, typename V> void rb_tree<K,V>::maintain_properties_deletion(rb_node<K,V>* node) {
+template <typename T> void rb_tree<T>::maintain_properties_deletion(rb_node<T>* node) {
+    if (node_color(node) == BLACK) 
+        return;
+
     if (node == this->tree_root) {
         node->color(BLACK);
         return;
     } 
 
-    rb_node<K,V>* sibling = node->sibling();
+    rb_node<T>* sibling = node->sibling();
 
     if (node_color(sibling) == RED) {
         sibling->color(BLACK);
@@ -115,12 +117,12 @@ template <typename K, typename V> void rb_tree<K,V>::maintain_properties_deletio
     }
 }
 
-template <typename K, typename V> void rb_tree<K,V>::rotate(rb_node<K,V>* N, bool dir) {
+template <typename T> void rb_tree<T>::rotate(rb_node<T>* N, bool dir) {
     int D = static_cast<int>(dir);
 
-    rb_node<K,V> *G = N->parent(),
-                 *Y = N->child(1-D),
-                 *C;
+    rb_node<T> *G = N->parent(),
+               *Y = N->child(1-D),
+               *C;
 
     if (Y == nullptr)
         return;
@@ -139,9 +141,9 @@ template <typename K, typename V> void rb_tree<K,V>::rotate(rb_node<K,V>* N, boo
     else { G->child(Y, N == G->right() ? 1 : 0); }
 }
 
-template <typename K, typename V> void rb_tree<K,V>::replace_node_child(rb_node<K,V>* P,
-                                                                        rb_node<K,V>* O,
-                                                                        rb_node<K,V>* N) {
+template <typename T> void rb_tree<T>::replace_node_child(rb_node<T>* P,
+                                                          rb_node<T>* O,
+                                                          rb_node<T>* N) {
     if (O == nullptr)
         return;
 
@@ -160,25 +162,25 @@ template <typename K, typename V> void rb_tree<K,V>::replace_node_child(rb_node<
     O->isolate();
 }
 
-template <typename K, typename V> rb_node<K,V>* rb_tree<K,V>::non_double_removal(rb_node<K,V>* node) {
+template <typename T> rb_node<T>* rb_tree<T>::non_double_removal(rb_node<T>* node) {
     if (node == nullptr)
         return nullptr;
 
-    rb_node<K,V>* moved = (node->right() != nullptr ? node->right() :
-                           node->left() != nullptr ? node->left() : nullptr);
+    rb_node<T>* moved = (node->right() != nullptr ? node->right() :
+                         node->left() != nullptr ? node->left() : nullptr);
 
     this->replace_node_child(node->parent(), node, moved);
 
     return moved;
 }
 
-template <typename K, typename V> rb_tree<K,V>::rb_tree(rb_node<K,V>* root) : tree_root(root),
+template <typename T> rb_tree<T>::rb_tree(rb_node<T>* root) : tree_root(root),
                                                                               tree_size(0) {
     if (tree_root != nullptr) 
         ++this->tree_size;                                                   
 }
 
-template <typename K, typename V> void rb_tree<K,V>::insert(rb_node<K,V>* node) {
+template <typename T> void rb_tree<T>::insert(rb_node<T>* node) {
     if (node == nullptr)
         return;
 
@@ -190,10 +192,10 @@ template <typename K, typename V> void rb_tree<K,V>::insert(rb_node<K,V>* node) 
     }
 
     // Standard BST insertion
-    rb_node<K,V>* parent = this->tree_root;
+    rb_node<T>* parent = this->tree_root;
 
     while (true) {
-        bool direction = (parent->key() <= node->key());
+        bool direction = (parent->value() <= node->value());
 
 
         if ((direction && parent->right() == nullptr) ||
@@ -213,27 +215,22 @@ template <typename K, typename V> void rb_tree<K,V>::insert(rb_node<K,V>* node) 
     ++this->tree_size;
 }
 
-template <typename K, typename V> void rb_tree<K,V>::insert(K key, V value) {
-    rb_node<K,V>* s = this->search(key);
-
-    if (s == nullptr)
-        this->insert(new rb_node<K,V>(key, value));
-    else 
-        s->value(value);
+template <typename T> void rb_tree<T>::insert(T value) {
+    this->insert(new rb_node<T>(value));
 }
 
-template <typename K, typename V> void rb_tree<K,V>::remove(rb_node<K,V>* node) {
+template <typename T> void rb_tree<T>::remove(rb_node<T>* node) {
     if (node == nullptr)
         return;
 
-    rb_node<K,V> *moved_node = nullptr;
+    rb_node<T> *moved_node = nullptr;
     rb_color_t deleted_color;
 
     if (node->children() <= 1) {
         deleted_color = node_color(node);
         moved_node = this->non_double_removal(node);
     } else {
-        rb_node<K,V>* successor = inorder_successor(node);
+        rb_node<T>* successor = inorder_successor(node);
         swap(successor, node);
 
         deleted_color = node_color(successor);
@@ -247,8 +244,8 @@ template <typename K, typename V> void rb_tree<K,V>::remove(rb_node<K,V>* node) 
     --this->tree_size;
 }
 
-template <typename K, typename V> void rb_tree<K,V>::remove(K key) {
-    rb_node<K,V>* node = this->search(key);
+template <typename T> void rb_tree<T>::remove(T key) {
+    rb_node<T>* node = this->search(key);
 
     if (node == nullptr)
         return;
@@ -256,19 +253,11 @@ template <typename K, typename V> void rb_tree<K,V>::remove(K key) {
     this->remove(node);
 }
 
-template <typename K, typename V> V rb_tree<K,V>::get(K key) const {
-    rb_node<K,V> *node = this->search(key);
+template <typename T> rb_node<T>* rb_tree<T>::search(T key) const {
+    rb_node<T>* current = this->tree_root;
 
-    assert(node != nullptr);
-
-    return (node->value());
-}
-
-template <typename K, typename V> rb_node<K,V>* rb_tree<K,V>::search(K key) const {
-    rb_node<K,V>* current = this->tree_root;
-
-    while (current != nullptr && current->key() != key) {
-        bool R = (current->key() <= key);
+    while (current != nullptr && current->value() != key) {
+        bool R = (current->value() <= key);
 
         current = (R ? current->right() : current->left());
     }
@@ -276,21 +265,21 @@ template <typename K, typename V> rb_node<K,V>* rb_tree<K,V>::search(K key) cons
     return current;
 }
 
-template <typename K, typename V> rb_node<K,V>* rb_tree<K,V>::root() const {
+template <typename T> rb_node<T>* rb_tree<T>::root() const {
     return this->tree_root;
 }
 
-template <typename K, typename V> int64_t rb_tree<K,V>::size() const {
+template <typename T> int64_t rb_tree<T>::size() const {
     return this->tree_size;
 }
 
-template <typename K, typename V> std::ostream& operator<<(std::ostream& out, const rb_tree<K,V> tree) {
-    deque<rb_node<K,V>*> q;
+template <typename T> std::ostream& operator<<(std::ostream& out, const rb_tree<T> tree) {
+    deque<rb_node<T>*> q;
 
     if (tree.root() != nullptr) q.push_back(tree.root());
 
     while (!q.is_empty()) {
-        rb_node<K,V>* node = q.pop_front();
+        rb_node<T>* node = q.pop_front();
 
         out << *node;
 
@@ -301,7 +290,7 @@ template <typename K, typename V> std::ostream& operator<<(std::ostream& out, co
     return out;
 }
 
-template <typename K, typename V> std::ostream& operator<<(std::ostream& out, rb_tree<K,V>* tree) {
+template <typename T> std::ostream& operator<<(std::ostream& out, rb_tree<T>* tree) {
     return out << *tree;
 }
 

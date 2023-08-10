@@ -1,5 +1,5 @@
-#include "src/MACROS.h"
-#include "src/map.h"
+#include "src/MACROS.hpp"
+#include "src/map.hpp"
 
 int main() {
     /*
@@ -23,6 +23,11 @@ int main() {
     t.insert(6, 6);
     t.insert(8, 7);
     t.insert(8, 8);
+
+    std::cout << t << '\n';
+
+    t.remove(5);
+    t.remove(8);
 
     std::cout << t << '\n';
 }

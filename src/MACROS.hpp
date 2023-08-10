@@ -1,8 +1,8 @@
-#ifndef MACROS_H
-#define MACROS_H
+#ifndef _MACROS_H
+#define _MACROS_H
 
 #pragma once
-#include "list.h"
+#include "list.hpp"
 #include <stdint.h>
 
 #define MAX(x,y) ((x > y) ? x : y)

@@ -1,5 +1,5 @@
-#ifndef LINKED_NODE_H
-#define LINKED_NODE_H
+#ifndef _LINKED_NODE_H
+#define _LINKED_NODE_H
 
 #pragma once
 #include <iostream>

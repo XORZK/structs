@@ -1,12 +1,12 @@
-#ifndef BINARY_TREE_H
-#define BINARY_TREE_H
+#ifndef _BINARY_TREE_H
+#define _BINARY_TREE_H
 
 #pragma once
 #include <iostream>
 #include <stdint.h>
-#include "deque.h"
-#include "tree_node.h"
-#include "MACROS.h"
+#include "deque.hpp"
+#include "tree_node.hpp"
+#include "MACROS.hpp"
 
 template <typename T> class binary_tree {
     private:

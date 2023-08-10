@@ -1,21 +1,20 @@
-#ifndef HEAP_H
-#define HEAD_H
+#ifndef _HEAP_H
+#define _HEAP_H
 
 #pragma once
 #include <assert.h>
-#include "deque.h"
-#include "list.h"
-#include "tree_node.h"
+#include "deque.hpp"
+#include "list.hpp"
+#include "tree_node.hpp"
 
 // In a max heap, for any given node C, if P is 
 // a parent node of C, then the key (value) of P 
 // is greater than the key (value) of C: P > C
 
 // This structure implements a binary heap
-template <typename T> class heap {
+template <typename T> class max_heap {
     private:
         int64_t heap_size;
-        bool max_heap = true;
         tree_node<T>* heap_root;
 
         void downheap();
@@ -41,9 +40,6 @@ template <typename T> class heap {
 
         int64_t size() const;
         int64_t depth() const;
-
-        void is_max_heap(bool max);
-        bool is_max_heap() const;
         bool is_empty() const;
 
         template <typename U>
@@ -55,18 +51,16 @@ template <typename T> void heap<T>::downheap() {
 
     while (current != nullptr) {
         bool right = (current->right() == nullptr || 
-                     (this->max_heap ? current->value() > current->right()->value() 
-                                     : current->value() < current->right()->value()));
+                      current->value() > current->right()->value());
 
         bool left = (current->left() == nullptr ||
-                    (this->max_heap ? current->value() > current->left()->value() 
-                                    : current->value() < current->left()->value()));
+                     current->value() > current->left()->value());
 
         if (left && right) break;
 
         bool rgtl = (current->right()->value() >= current->left()->value());
 
-        if ((rgtl && this->max_heap) || (!rgtl && !this->max_heap)) {
+        if (rgtl) {
             swap(current, current->right());
             current = current->right();
         } else {
@@ -121,8 +115,7 @@ template <typename T> void heap<T>::insert(tree_node<T>* node) {
         tree_node<T>* current = node;
 
         while (current->parent() != nullptr) {
-            if (max_heap ? (current->value() > current->parent()->value()) 
-                         : (current->value() < current->parent()->value())) {
+            if (current->value() > current->parent()->value()) {
                 swap(current, current->parent());
             }
             current = current->parent();
@@ -136,7 +129,7 @@ template <typename T> void heap<T>::insert(T value) {
 }
 
 template <typename T> T heap<T>::push_pop(tree_node<T>* node) {
-    if (this->heap_root == nullptr || (max_heap ? node->value() >= this->heap_root->value() : node->value() <= this->heap_root->value())) { 
+    if (this->heap_root == nullptr || (node->value() >= this->heap_root->value())) {
         return node->value(); 
     }
 
@@ -198,14 +191,6 @@ template <typename T> int64_t heap<T>::size() const { return this->heap_size; }
 
 template <typename T> int64_t heap<T>::depth() const {
     return log2(this->heap_size) + 1;
-}
-
-template <typename T> void heap<T>::is_max_heap(bool max) {
-    this->max_heap = max;
-}
-
-template <typename T> bool heap<T>::is_max_heap() const {
-    return this->max_heap;
 }
 
 template <typename T> bool heap<T>::is_empty() const {

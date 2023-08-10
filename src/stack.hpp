@@ -1,8 +1,8 @@
-#ifndef STACK_H
-#define STACK_h
+#ifndef _STACK_H
+#define _STACK_H
 
 #pragma once
-#include "list.h"
+#include "list.hpp"
 
 // FILO Data Structure
 template <typename T> class stack : public list<T> {};

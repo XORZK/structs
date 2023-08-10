@@ -1,8 +1,8 @@
-#ifndef DEQUE_H
-#define DEQUE_H
+#ifndef _DEQUE_H
+#define _DEQUE_H
 
 #pragma once
-#include "list.h"
+#include "list.hpp"
 
 // FIFO Data Structure
 template <typename T> class deque : public list<T> {};
