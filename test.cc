@@ -9,7 +9,9 @@ int main() {
     t.insert(3);
 
     set<int> u = t;
-    u.remove(3);
+    //u.remove(3);
+
+    u = u - 3;
 
     std::cout << t << "\n";
     std::cout << u << "\n";

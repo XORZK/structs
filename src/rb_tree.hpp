@@ -33,6 +33,8 @@ template <typename T> class rb_tree {
         rb_node<T>* root() const;
 
         int64_t size() const;
+
+        void clear();
 };
 
 template <typename T> void rb_tree<T>::maintain_properties_insertion(rb_node<T>* node) {
@@ -272,6 +274,10 @@ template <typename T> rb_node<T>* rb_tree<T>::root() const {
 
 template <typename T> int64_t rb_tree<T>::size() const {
     return (this->tree_size + 1);
+}
+
+template <typename T> void rb_tree<T>::clear() {
+    this->tree_root = nullptr;
 }
 
 template <typename T> std::ostream& operator<<(std::ostream& out, const rb_tree<T> tree) {
