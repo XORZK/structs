@@ -13,21 +13,19 @@ int main() {
 
     std::cout << tree << "\n";*/
 
-    map<int, int> t;
+    rb_tree<int> t;
 
-    t.insert(1, 1);
-    t.insert(1, 2);
-    t.insert(5, 3);
-    t.insert(2, 4);
-    t.insert(7, 5);
-    t.insert(6, 6);
-    t.insert(8, 7);
-    t.insert(8, 8);
+    t.insert(1);
+    t.insert(1);
+    t.insert(5);
+    t.insert(2);
+    t.insert(7);
+    t.insert(6);
+    t.insert(8);
+    t.insert(8);
 
-    std::cout << t << '\n';
-
-    t.remove(5);
-    t.remove(8);
-
-    std::cout << t << '\n';
+    std::cout << inorder_traversal(t) << '\n';
+    std::cout << preorder_traversal(t) << '\n';
+    std::cout << postorder_traversal(t) << '\n';
+    std::cout << level_order_traversal(t) << '\n';
 }

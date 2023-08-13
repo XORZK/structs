@@ -4,6 +4,7 @@
 #pragma once
 #include "deque.hpp"
 #include "rb_node.hpp"
+#include "list.hpp"
 #include <stdint.h>
 
 template <typename T> class rb_tree {
@@ -292,6 +293,83 @@ template <typename T> std::ostream& operator<<(std::ostream& out, const rb_tree<
 
 template <typename T> std::ostream& operator<<(std::ostream& out, rb_tree<T>* tree) {
     return out << *tree;
+}
+
+template <typename T> inline void inorder_traversal(rb_node<T>* node, 
+                                                    list<T>* &list = nullptr)  {
+    if (node == nullptr)
+        return;
+
+    inorder_traversal(node->left(), list);
+
+    if (list != nullptr)
+        list->push_back(node->value());
+
+    inorder_traversal(node->right(), list);
+}
+
+template <typename T> inline void preorder_traversal(rb_node<T>* node,
+                                                     list<T>* &list = nullptr) {
+    if (node == nullptr)
+        return;
+
+    if (list != nullptr) 
+        list->push_back(node->value());
+
+    preorder_traversal(node->left(), list);
+    preorder_traversal(node->right(), list);
+}
+
+template <typename T> inline void postorder_traversal(rb_node<T>* node,
+                                                      list<T>* &list = nullptr) {
+    if (node == nullptr)
+        return;
+
+    postorder_traversal(node->left(), list);
+    postorder_traversal(node->right(), list);         
+
+    if (list != nullptr)
+        list->push_back(node->value());
+}
+
+template <typename T> inline list<T> inorder_traversal(const rb_tree<T>& tree) {
+    list<T>* traversal= new list<T>();
+    inorder_traversal(tree.root(), traversal);
+    return *traversal;
+}
+
+template <typename T> inline list<T> preorder_traversal(const rb_tree<T>& tree) {
+    list<T>* traversal = new list<T>();
+    preorder_traversal(tree.root(), traversal);
+    return *traversal;
+}
+
+template <typename T> inline list<T> postorder_traversal(const rb_tree<T>& tree) {
+    list<T>* traversal = new list<T>();
+    postorder_traversal(tree.root(), traversal);
+    return *traversal;
+}
+
+template <typename T> inline list<T> level_order_traversal(const rb_tree<T>& tree) {
+    list<T>* traversal = new list<T>();
+
+    deque<rb_node<T>*> q;
+
+    if (tree.root() != nullptr) 
+        q.push_back(tree.root());
+
+    while (!q.is_empty()) {
+        rb_node<T>* node = q.pop_front();
+
+        traversal->push_back(node->value());
+
+        if (node->right() != nullptr) 
+            q.push_back(node->right());
+        if (node->left() != nullptr)
+            q.push_back(node->left());
+    }
+
+    return *traversal;
 }
 
 #endif

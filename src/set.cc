@@ -4,4 +4,7 @@
 #pragma once
 #include "rb_tree.hpp"
 
+template <typename T> class set : public rb_tree {
+};
+
 #endif
