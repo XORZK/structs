@@ -1,5 +1,5 @@
-#ifndef _RB_TREE_H
-#define _RB_TREE_H
+#ifndef RB_TREE_H
+#define RB_TREE_H
 
 #pragma once
 #include "deque.hpp"
@@ -271,7 +271,7 @@ template <typename T> rb_node<T>* rb_tree<T>::root() const {
 }
 
 template <typename T> int64_t rb_tree<T>::size() const {
-    return this->tree_size;
+    return (this->tree_size + 1);
 }
 
 template <typename T> std::ostream& operator<<(std::ostream& out, const rb_tree<T> tree) {

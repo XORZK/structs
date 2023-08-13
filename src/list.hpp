@@ -1,5 +1,5 @@
-#ifndef _LIST_H
-#define _LIST_H
+#ifndef LIST_H
+#define LIST_H
 
 #pragma once
 #include "node.hpp"
@@ -49,7 +49,8 @@ template <typename T> class list {
         linked_node<T> get(int64_t idx) const;
         linked_node<T>* get_ptr(int64_t idx) const;
 
-        linked_node<T>* operator[](int64_t idx);
+        T operator[](int64_t idx);
+        //linked_node<T>* operator[](int64_t idx);
 
         template <typename U>
         friend std::ostream& operator<<(std::ostream& out, const list<U>& l);
@@ -114,7 +115,7 @@ template <typename T> T list<T>::pop_front() {
         return removed_front->value();
     }
 
-    return static_cast<T>(0);
+    throw std::out_of_range("The indexed list is empty");
 }
 
 template <typename T> T list<T>::pop_back() {
@@ -200,8 +201,8 @@ template <typename T> linked_node<T>* list<T>::get_ptr(int64_t idx) const {
     return ptr;
 }
 
-template <typename T> linked_node<T>* list<T>::operator[](int64_t idx) {
-    return this->get_ptr(idx);
+template <typename T> T list<T>::operator[](int64_t idx) {
+    return this->get_ptr(idx)->value();
 }
 
 // <A> -> <B> -> <C> ... -> <N>
@@ -308,6 +309,22 @@ template <typename T> std::ostream& operator<<(std::ostream& out, const list<T>&
 template <typename T> std::ostream& operator<<(std::ostream& out, const list<T>* l) {
     out << *l;
     return out;
+}
+
+template <typename T> int64_t binary_search(list<T> l, T value) {
+    int64_t L = 0, R = l.size()-1;
+
+    while (L <= R) {
+        int64_t M = (L+R)/2;
+
+        T s = l[M];
+
+        if (s == value) return M;
+        else if (s > value) R = M - 1;
+        else L = M + 1;
+    }
+
+    return -1;
 }
 
 #endif

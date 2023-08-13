@@ -1,5 +1,5 @@
-#ifndef _BINARY_TREE_H
-#define _BINARY_TREE_H
+#ifndef BINARY_TREE_H
+#define BINARY_TREE_H
 
 #pragma once
 #include <iostream>
@@ -14,6 +14,7 @@ template <typename T> class binary_tree {
         int64_t tree_size;
 
         void update_depths();
+
     public:
         binary_tree(tree_node<T>* root = nullptr);
 

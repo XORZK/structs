@@ -1,5 +1,5 @@
-#ifndef _TREE_NODE_H
-#define _TREE_NODE_H
+#ifndef TREE_NODE_H
+#define TREE_NODE_H
 
 #pragma once
 #include <iostream>
@@ -13,7 +13,7 @@ template <typename T> class tree_node {
         tree_node<T> *left_node, *right_node, *parent_node;
         bool node_right = true;
     public:
-        tree_node(T value = 0, tree_node<T>* l = nullptr, tree_node<T>* r = nullptr, int64_t d = 0);
+        tree_node(T value, tree_node<T>* l = nullptr, tree_node<T>* r = nullptr, int64_t d = 0);
 
         ~tree_node() {}
 

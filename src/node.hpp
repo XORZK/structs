@@ -1,5 +1,5 @@
-#ifndef _LINKED_NODE_H
-#define _LINKED_NODE_H
+#ifndef LINKED_NODE_H
+#define LINKED_NODE_H
 
 #pragma once
 #include <iostream>
@@ -27,6 +27,10 @@ template <typename T> class linked_node {
 
         bool operator==(linked_node<T> node) const;
         bool operator==(linked_node<T>* node) const;
+        bool operator>(linked_node<T>* node) const;
+        bool operator<(linked_node<T>* node) const;
+        bool operator>=(linked_node<T>* node) const;
+        bool operator<=(linked_node<T>* node) const;
 
         template <typename U>
         friend std::ostream& operator<<(std::ostream& out, const linked_node<U>& h);
@@ -68,6 +72,22 @@ template <typename T> bool linked_node<T>::operator==(linked_node<T> node) const
 
 template <typename T> bool linked_node<T>::operator==(linked_node<T>* node) const {
     return (node == nullptr ? 0 : this->value() == node->value());
+}
+
+template <typename T> bool linked_node<T>::operator>(linked_node<T>* node) const {
+    return (this->value() > node->value());
+}
+
+template <typename T> bool linked_node<T>::operator<(linked_node<T>* node) const {
+    return (this->value() < node->value());
+}
+
+template <typename T> bool linked_node<T>::operator>=(linked_node<T>* node) const {
+    return (this->value() >= node->value());
+}
+
+template <typename T> bool linked_node<T>::operator<=(linked_node<T>* node) const {
+    return (this->value() <= node->value());
 }
 
 template <typename T> std::ostream& operator<<(std::ostream& out, const linked_node<T>& h) {

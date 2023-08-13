@@ -1,5 +1,5 @@
-#ifndef _RB_NODE_H
-#define _RB_NODE_H
+#ifndef RB_NODE_H
+#define RB_NODE_H
 
 #pragma once
 #include <iostream>

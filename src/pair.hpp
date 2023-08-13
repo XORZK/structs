@@ -1,5 +1,5 @@
-#ifndef _PAIR_H
-#define _PAIR_H
+#ifndef PAIR_H
+#define PAIR_H
 
 template <typename K, typename V> class pair {
     private:
@@ -40,7 +40,7 @@ template <typename K, typename V>
 bool pair<K,V>::operator==(const K k) const { return this->k == k; }
 
 template <typename K, typename V> 
-bool pair<K,V>::operator==(const pair<K,V> p) const { return this->k == p.key(); }
+bool pair<K,V>::operator==(const pair<K,V> p) const { return (this->k == p.key() && this->v == p.value()); }
 
 template <typename K, typename V> 
 bool pair<K,V>::operator>(const pair<K,V> p) const { return this->k > p.key(); }
@@ -55,7 +55,7 @@ template <typename K, typename V>
 bool pair<K,V>::operator>=(const pair<K,V> p) const { return this->k >= p.key(); }
 
 template <typename K, typename V> 
-bool pair<K,V>::operator!=(const pair<K,V> p) const { return this->k != p.key(); }
+bool pair<K,V>::operator!=(const pair<K,V> p) const { return (this->k != p.key() || this->v != p.value()); }
 
 
 template <typename K, typename V> 

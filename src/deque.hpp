@@ -1,5 +1,5 @@
-#ifndef _DEQUE_H
-#define _DEQUE_H
+#ifndef DEQUE_H
+#define DEQUE_H
 
 #pragma once
 #include "list.hpp"

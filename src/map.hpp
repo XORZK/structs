@@ -1,5 +1,5 @@
-#ifndef _MAP_H
-#define _MAP_H
+#ifndef MAP_H
+#define MAP_H
 
 #pragma once
 #include "pair.hpp"
@@ -17,7 +17,7 @@ template <typename K, typename V> class map : public rb_tree<pair<K,V>> {
 template <typename K, typename V> 
 void map<K,V>::insert(K k, V v) {
     pair<K,V> p(k,v);
-    rb_node<pair<K,V>> *s = rb_tree<pair<K,V>>::search(p);
+    rb_node<pair<K,V>> *s = map<K,V>::search(k);
 
     if (s == nullptr) {
         rb_node<pair<K,V>> *node = new rb_node<pair<K,V>>(p);
